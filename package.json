@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/tarann26/virtual-cofounder-web#readme",
   "devDependencies": {
+    "@types/node": "^25.2.0",
     "@types/react": "^19.2.11",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.3",
@@ -31,7 +32,12 @@
     "vite": "^7.3.1"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.4.0"
   }
 }
