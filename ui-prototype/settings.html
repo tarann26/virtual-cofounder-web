@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings · NexusAI · Virtual Co-founder</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #0a0a0b;
+      --bg-surface: #121214;
+      --bg-elevated: #1a1a1d;
+      --bg-hover: #222225;
+
+      --amber-300: #fcd34d;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --amber-600: #d97706;
+      --amber-glow: rgba(251, 191, 36, 0.15);
+      --amber-glow-strong: rgba(251, 191, 36, 0.25);
+
+      --text-primary: #fafaf9;
+      --text-secondary: #a8a8a4;
+      --text-tertiary: #6b6b68;
+      --text-inverse: #0a0a0b;
+
+      --success: #22c55e;
+      --danger: #ef4444;
+      --danger-muted: rgba(239, 68, 68, 0.15);
+
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-default: rgba(255, 255, 255, 0.1);
+      --border-strong: rgba(255, 255, 255, 0.15);
+
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --radius-full: 9999px;
+
+      --transition-fast: 150ms ease;
+      --transition-base: 250ms ease;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* Noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Header */
+    .header {
+      height: 56px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--amber-glow) 20%, var(--amber-glow) 80%, transparent);
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-default);
+      color: var(--text-primary);
+    }
+
+    .back-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    /* Main layout */
+    .main-layout {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* Sidebar navigation */
+    .settings-nav {
+      width: 240px;
+      padding: 24px;
+      border-right: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background: var(--amber-glow);
+      color: var(--amber-300);
+    }
+
+    .nav-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .nav-link.danger {
+      color: var(--danger);
+    }
+
+    .nav-link.danger:hover {
+      background: var(--danger-muted);
+    }
+
+    /* Content area */
+    .settings-content {
+      flex: 1;
+      padding: 32px 48px;
+      max-width: 720px;
+    }
+
+    .settings-section {
+      margin-bottom: 48px;
+    }
+
+    .section-header {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .section-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Cards */
+    .settings-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card-row:last-child {
+      border-bottom: none;
+    }
+
+    .row-info {
+      flex: 1;
+    }
+
+    .row-title {
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .row-description {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    /* Toggle switch */
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: 12px;
+      transition: all var(--transition-fast);
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      background: var(--text-tertiary);
+      border-radius: 50%;
+      transition: all var(--transition-fast);
+    }
+
+    .toggle input:checked + .toggle-track {
+      background: var(--amber-500);
+      border-color: var(--amber-500);
+    }
+
+    .toggle input:checked + .toggle-track .toggle-thumb {
+      transform: translateX(20px);
+      background: white;
+    }
+
+    /* Slider */
+    .slider-container {
+      width: 200px;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .slider-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .slider-label.active {
+      color: var(--amber-400);
+      font-weight: 600;
+    }
+
+    .slider {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-elevated);
+      border-radius: 3px;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--amber-500);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px var(--amber-glow-strong);
+      transition: transform var(--transition-fast);
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    /* Integration cards */
+    .integrations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .integration-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: all var(--transition-fast);
+    }
+
+    .integration-card:hover {
+      border-color: var(--border-default);
+    }
+
+    .integration-card.connected {
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .integration-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      flex-shrink: 0;
+    }
+
+    .integration-icon img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .integration-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--text-secondary);
+    }
+
+    .integration-info {
+      flex: 1;
+    }
+
+    .integration-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .connected-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(34, 197, 94, 0.15);
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--success);
+    }
+
+    .connected-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+    }
+
+    .integration-description {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 12px;
+    }
+
+    .btn-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-sm:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .btn-sm svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Danger zone */
+    .danger-zone {
+      background: var(--danger-muted);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .danger-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--danger);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .danger-title svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .danger-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .btn-danger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--danger);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    .btn-danger svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Form inputs */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--amber-500);
+      box-shadow: 0 0 0 3px var(--amber-glow);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 8px;
+    }
+
+    /* Save button */
+    .save-bar {
+      position: fixed;
+      bottom: 0;
+      left: 240px;
+      right: 0;
+      padding: 16px 48px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      transform: translateY(100%);
+      transition: transform var(--transition-base);
+      z-index: 50;
+    }
+
+    .save-bar.visible {
+      transform: translateY(0);
+    }
+
+    .save-bar .changes-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-right: auto;
+    }
+
+    .btn-secondary {
+      padding: 10px 20px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .btn-primary {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--amber-500), var(--amber-600));
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-inverse);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--amber-glow-strong);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .settings-nav {
+        display: none;
+      }
+
+      .settings-content {
+        padding: 24px;
+      }
+
+      .save-bar {
+        left: 0;
+        padding: 16px 24px;
+      }
+
+      .integrations-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <a href="index.html" class="back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+    </a>
+    <h1 class="page-title">Project Settings</h1>
+  </header>
+
+  <div class="main-layout">
+    <!-- Sidebar navigation -->
+    <nav class="settings-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Project</div>
+        <a href="#general" class="nav-link active">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v10"/><path d="m15.5 8.5 4.24-4.24m-14.14 14.14 4.24-4.24m0-9.9L5.26 4.26M18.74 18.74l-4.24-4.24"/></svg>
+          General
+        </a>
+        <a href="#automation" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+          Automation
+        </a>
+        <a href="#notifications" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          Notifications
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Integrations</div>
+        <a href="#integrations" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Connected Services
+        </a>
+        <a href="#api" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          API Keys
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Advanced</div>
+        <a href="#danger" class="nav-link danger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+          Danger Zone
+        </a>
+      </div>
+    </nav>
+
+    <!-- Content area -->
+    <div class="settings-content">
+      <!-- General Section -->
+      <section id="general" class="settings-section">
+        <div class="section-header">
+          <h2 class="section-title">General</h2>
+          <p class="section-description">Basic project information and configuration</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Project Name</label>
+          <input type="text" class="form-input" value="NexusAI">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-input" value="AI-powered developer tools platform" placeholder="Brief description of your project">
+          <p class="form-hint">This helps your AI co-founder understand your project context</p>
+        </div>
+      </section>
+
+      <!-- Automation Section -->
+      <section id="automation" class="settings-section">
+        <div class="section-header">
+          <h2 class="section-title">Automation</h2>
+          <p class="section-description">Control how autonomous your AI co-founder acts</p>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Automation Level</div>
+              <div class="row-description">How much should your co-founder do without asking?</div>
+            </div>
+            <div class="slider-container">
+              <div class="slider-labels">
+                <span class="slider-label">Conservative</span>
+                <span class="slider-label active">Balanced</span>
+                <span class="slider-label">Autonomous</span>
+              </div>
+              <input type="range" class="slider" min="0" max="2" value="1">
+            </div>
+          </div>
+
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Auto-research</div>
+              <div class="row-description">Automatically gather market data and competitor info</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Draft artifacts</div>
+              <div class="row-description">Create document drafts before asking for approval</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Financial actions</div>
+              <div class="row-description">Always require approval for any purchases or subscriptions</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notifications Section -->
+      <section id="notifications" class="settings-section">
+        <div class="section-header">
+          <h2 class="section-title">Notifications</h2>
+          <p class="section-description">Choose how you want to be notified</p>
+        </div>
+
+        <div class="settings-card">
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Email notifications</div>
+              <div class="row-description">Receive email for important updates and approvals</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Push notifications</div>
+              <div class="row-description">Browser notifications for urgent items</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox">
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="card-row">
+            <div class="row-info">
+              <div class="row-title">Weekly digest</div>
+              <div class="row-description">Summary of progress and upcoming milestones</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Integrations Section -->
+      <section id="integrations" class="settings-section">
+        <div class="section-header">
+          <h2 class="section-title">Connected Services</h2>
+          <p class="section-description">External services your co-founder can use on your behalf</p>
+        </div>
+
+        <div class="integrations-grid">
+          <div class="integration-card connected">
+            <div class="integration-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="integration-info">
+              <div class="integration-name">
+                Cloudflare
+                <span class="connected-badge">Connected</span>
+              </div>
+              <div class="integration-description">Domain registration and DNS management</div>
+              <button class="btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                Configure
+              </button>
+            </div>
+          </div>
+
+          <div class="integration-card">
+            <div class="integration-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </div>
+            <div class="integration-info">
+              <div class="integration-name">GitHub</div>
+              <div class="integration-description">Code repositories and deployments</div>
+              <button class="btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Connect
+              </button>
+            </div>
+          </div>
+
+          <div class="integration-card">
+            <div class="integration-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </div>
+            <div class="integration-info">
+              <div class="integration-name">Stripe</div>
+              <div class="integration-description">Payment processing and subscriptions</div>
+              <button class="btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Connect
+              </button>
+            </div>
+          </div>
+
+          <div class="integration-card">
+            <div class="integration-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="integration-info">
+              <div class="integration-name">SendGrid</div>
+              <div class="integration-description">Email delivery and marketing</div>
+              <button class="btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Connect
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Danger Zone Section -->
+      <section id="danger" class="settings-section">
+        <div class="section-header">
+          <h2 class="section-title">Danger Zone</h2>
+          <p class="section-description">Irreversible actions that affect your entire project</p>
+        </div>
+
+        <div class="danger-zone">
+          <div class="danger-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            Delete Project
+          </div>
+          <p class="danger-description">
+            Once you delete a project, there is no going back. All artifacts, chat history, and configurations will be permanently removed. Connected services will be disconnected but not deleted.
+          </p>
+          <button class="btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            Delete this project
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Save bar -->
+  <div class="save-bar" id="save-bar">
+    <span class="changes-text">You have unsaved changes</span>
+    <button class="btn-secondary">Discard</button>
+    <button class="btn-primary">Save changes</button>
+  </div>
+
+  <script>
+    // Show save bar when changes detected
+    const inputs = document.querySelectorAll('input');
+    const saveBar = document.getElementById('save-bar');
+
+    inputs.forEach(input => {
+      input.addEventListener('change', () => {
+        saveBar.classList.add('visible');
+      });
+    });
+
+    // Smooth scroll to sections
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+          // Update active state
+          document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Slider label update
+    const slider = document.querySelector('.slider');
+    const labels = document.querySelectorAll('.slider-label');
+
+    slider.addEventListener('input', () => {
+      labels.forEach((label, i) => {
+        label.classList.toggle('active', i === parseInt(slider.value));
+      });
+      saveBar.classList.add('visible');
+    });
+  </script>
+</body>
+</html>
