@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Project - Virtual Co-founder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Colors - Mission Control for Dreamers */
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-elevated: #222222;
+            --border-subtle: #2a2a2a;
+            --border-default: #333333;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1a1;
+            --text-muted: #666666;
+            --accent-primary: #f59e0b;
+            --accent-secondary: #fbbf24;
+            --accent-muted: rgba(245, 158, 11, 0.15);
+            --success: #10b981;
+            --error: #ef4444;
+
+            /* Typography */
+            --font-display: 'Instrument Serif', serif;
+            --font-body: 'DM Sans', sans-serif;
+
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+
+            /* Borders */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-effects {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+        }
+
+        .bg-gradient-1 {
+            top: -200px;
+            right: -100px;
+            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+        }
+
+        .bg-gradient-2 {
+            bottom: -300px;
+            left: -200px;
+            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+            opacity: 0.2;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        /* Layout */
+        .page-container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md) var(--space-xl);
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .breadcrumb-sep {
+            color: var(--border-default);
+        }
+
+        .breadcrumb-current {
+            color: var(--text-secondary);
+        }
+
+        .btn-close {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border-default);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: var(--space-3xl);
+            gap: var(--space-3xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Form Section */
+        .form-section {
+            flex: 1;
+            max-width: 560px;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: var(--space-md);
+        }
+
+        .page-title em {
+            color: var(--accent-primary);
+            font-style: italic;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: var(--space-2xl);
+        }
+
+        /* Form */
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .form-label-hint {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .form-input {
+            padding: var(--space-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-muted);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .char-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: var(--space-xs);
+        }
+
+        /* Project Type Selection */
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+
+        .type-card {
+            padding: var(--space-lg);
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-muted), transparent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .type-card:hover {
+            border-color: var(--border-default);
+            transform: translateY(-2px);
+        }
+
+        .type-card.selected {
+            border-color: var(--accent-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .type-card.selected::before {
+            opacity: 1;
+        }
+
+        .type-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .type-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: var(--space-md);
+            transition: all 0.2s;
+        }
+
+        .type-card.selected .type-icon {
+            background: var(--accent-muted);
+        }
+
+        .type-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: var(--space-xs);
+        }
+
+        .type-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .type-check {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s;
+        }
+
+        .type-card.selected .type-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Visibility Toggle */
+        .visibility-toggle {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .visibility-option {
+            flex: 1;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            transition: all 0.2s;
+        }
+
+        .visibility-option:hover {
+            color: var(--text-primary);
+        }
+
+        .visibility-option.active {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            color: var(--bg-primary);
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary.loading .btn-text { display: none; }
+        .btn-primary .btn-loading { display: none; }
+        .btn-primary.loading .btn-loading { display: flex; align-items: center; gap: var(--space-sm); }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        /* Preview Section */
+        .preview-section {
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .preview-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: sticky;
+            top: 100px;
+        }
+
+        .preview-header {
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .preview-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .preview-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+        }
+
+        .preview-dot:nth-child(1) { background: #ef4444; }
+        .preview-dot:nth-child(2) { background: #eab308; }
+        .preview-dot:nth-child(3) { background: #22c55e; }
+
+        .preview-title {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .preview-content {
+            padding: var(--space-xl);
+        }
+
+        .preview-project-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--accent-muted), var(--bg-tertiary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: var(--space-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .preview-project-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            margin-bottom: var(--space-sm);
+            min-height: 32px;
+        }
+
+        .preview-project-name.placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .preview-project-type {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .preview-project-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 66px;
+        }
+
+        .preview-project-desc.placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .preview-meta {
+            display: flex;
+            gap: var(--space-lg);
+            padding-top: var(--space-lg);
+            margin-top: var(--space-lg);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .preview-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .preview-meta-icon {
+            opacity: 0.6;
+        }
+
+        /* Templates Section */
+        .templates-section {
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+        }
+
+        .templates-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .templates-grid {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .template-chip {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .template-chip:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+            background: var(--accent-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .form-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .preview-section {
+            animation: fadeInUp 0.6s ease-out 0.1s backwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+                padding: var(--space-xl);
+            }
+
+            .form-section,
+            .preview-section {
+                max-width: 100%;
+            }
+
+            .preview-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-title {
+                font-size: 36px;
+            }
+
+            .type-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: var(--space-md);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-secondary {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effects">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <div class="page-container">
+        <header class="header">
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">✦</div>
+                    <span class="logo-text">Virtual Co-founder</span>
+                </a>
+                <nav class="breadcrumb">
+                    <span>Projects</span>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-current">New Project</span>
+                </nav>
+            </div>
+            <button class="btn-close" onclick="window.location.href='index.html'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+        </header>
+
+        <main class="main-content">
+            <section class="form-section">
+                <h1 class="page-title">Launch your <em>next big thing</em></h1>
+                <p class="page-subtitle">Give your project a name and let your AI co-founder help you bring it to life. You can always change these details later.</p>
+
+                <form class="form" id="projectForm">
+                    <div class="form-group">
+                        <label class="form-label">Project Name</label>
+                        <input type="text" class="form-input" id="projectName" placeholder="e.g., Stellar Analytics, Project Phoenix" maxlength="60">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Description
+                            <span class="form-label-hint">(optional)</span>
+                        </label>
+                        <textarea class="form-input" id="projectDesc" placeholder="Describe your vision. What problem are you solving? Who is it for?" maxlength="500"></textarea>
+                        <div class="char-count"><span id="charCount">0</span>/500</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Project Type</label>
+                        <div class="type-grid">
+                            <div class="type-card selected" data-type="startup">
+                                <div class="type-card-content">
+                                    <div class="type-icon">🚀</div>
+                                    <div class="type-name">Startup</div>
+                                    <div class="type-desc">Build a business from idea to launch</div>
+                                </div>
+                                <div class="type-check">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="type-card" data-type="side-project">
+                                <div class="type-card-content">
+                                    <div class="type-icon">⚡</div>
+                                    <div class="type-name">Side Project</div>
+                                    <div class="type-desc">Explore ideas and build for fun</div>
+                                </div>
+                                <div class="type-check">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="type-card" data-type="freelance">
+                                <div class="type-card-content">
+                                    <div class="type-icon">💼</div>
+                                    <div class="type-name">Client Work</div>
+                                    <div class="type-desc">Freelance or agency projects</div>
+                                </div>
+                                <div class="type-check">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="type-card" data-type="research">
+                                <div class="type-card-content">
+                                    <div class="type-icon">🔬</div>
+                                    <div class="type-name">Research</div>
+                                    <div class="type-desc">Exploration and discovery</div>
+                                </div>
+                                <div class="type-check">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Visibility</label>
+                        <div class="visibility-toggle">
+                            <button type="button" class="visibility-option active" data-visibility="private">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                Private
+                            </button>
+                            <button type="button" class="visibility-option" data-visibility="team">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                                Team
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="createBtn">
+                            <span class="btn-text">Create Project</span>
+                            <span class="btn-loading">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite">
+                                    <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="20"/>
+                                </svg>
+                                Creating...
+                            </span>
+                            <svg class="btn-text" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="preview-section">
+                <div class="preview-card">
+                    <div class="preview-header">
+                        <div class="preview-dots">
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                        </div>
+                        <div class="preview-title">Preview</div>
+                    </div>
+                    <div class="preview-content">
+                        <div class="preview-project-icon" id="previewIcon">🚀</div>
+                        <h2 class="preview-project-name placeholder" id="previewName">Your project name</h2>
+                        <div class="preview-project-type">
+                            <span id="previewTypeIcon">🚀</span>
+                            <span id="previewType">Startup</span>
+                        </div>
+                        <p class="preview-project-desc placeholder" id="previewDesc">Your project description will appear here...</p>
+                        <div class="preview-meta">
+                            <div class="preview-meta-item">
+                                <svg class="preview-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <span id="previewVisibility">Private</span>
+                            </div>
+                            <div class="preview-meta-item">
+                                <svg class="preview-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                                <span>Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="templates-section">
+                    <div class="templates-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        Quick Start Templates
+                    </div>
+                    <div class="templates-grid">
+                        <button class="template-chip" data-name="SaaS App" data-desc="Build a subscription-based software service">
+                            💻 SaaS App
+                        </button>
+                        <button class="template-chip" data-name="Mobile App" data-desc="Create a native mobile application">
+                            📱 Mobile App
+                        </button>
+                        <button class="template-chip" data-name="E-commerce" data-desc="Launch an online store or marketplace">
+                            🛒 E-commerce
+                        </button>
+                        <button class="template-chip" data-name="Content Platform" data-desc="Build a blog, newsletter, or media site">
+                            📝 Content
+                        </button>
+                        <button class="template-chip" data-name="API/Developer Tool" data-desc="Create tools for other developers">
+                            🔧 Dev Tools
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const projectName = document.getElementById('projectName');
+        const projectDesc = document.getElementById('projectDesc');
+        const charCount = document.getElementById('charCount');
+        const previewName = document.getElementById('previewName');
+        const previewDesc = document.getElementById('previewDesc');
+        const previewIcon = document.getElementById('previewIcon');
+        const previewType = document.getElementById('previewType');
+        const previewTypeIcon = document.getElementById('previewTypeIcon');
+        const previewVisibility = document.getElementById('previewVisibility');
+        const typeCards = document.querySelectorAll('.type-card');
+        const visibilityOptions = document.querySelectorAll('.visibility-option');
+        const templateChips = document.querySelectorAll('.template-chip');
+        const projectForm = document.getElementById('projectForm');
+
+        const typeIcons = {
+            'startup': '🚀',
+            'side-project': '⚡',
+            'freelance': '💼',
+            'research': '🔬'
+        };
+
+        const typeNames = {
+            'startup': 'Startup',
+            'side-project': 'Side Project',
+            'freelance': 'Client Work',
+            'research': 'Research'
+        };
+
+        // Live preview updates
+        projectName.addEventListener('input', () => {
+            const value = projectName.value.trim();
+            if (value) {
+                previewName.textContent = value;
+                previewName.classList.remove('placeholder');
+            } else {
+                previewName.textContent = 'Your project name';
+                previewName.classList.add('placeholder');
+            }
+        });
+
+        projectDesc.addEventListener('input', () => {
+            const value = projectDesc.value.trim();
+            charCount.textContent = projectDesc.value.length;
+
+            if (value) {
+                previewDesc.textContent = value;
+                previewDesc.classList.remove('placeholder');
+            } else {
+                previewDesc.textContent = 'Your project description will appear here...';
+                previewDesc.classList.add('placeholder');
+            }
+        });
+
+        // Type selection
+        typeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                typeCards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+
+                const type = card.dataset.type;
+                previewIcon.textContent = typeIcons[type];
+                previewType.textContent = typeNames[type];
+                previewTypeIcon.textContent = typeIcons[type];
+            });
+        });
+
+        // Visibility toggle
+        visibilityOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                visibilityOptions.forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+                previewVisibility.textContent = option.dataset.visibility === 'private' ? 'Private' : 'Team';
+            });
+        });
+
+        // Template chips
+        templateChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                projectName.value = chip.dataset.name;
+                projectDesc.value = chip.dataset.desc;
+                projectName.dispatchEvent(new Event('input'));
+                projectDesc.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // Form submission
+        projectForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (!projectName.value.trim()) {
+                projectName.focus();
+                return;
+            }
+
+            const createBtn = document.getElementById('createBtn');
+            createBtn.classList.add('loading');
+            createBtn.disabled = true;
+
+            // Simulate creation
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
