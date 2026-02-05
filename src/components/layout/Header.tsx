@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '@/features/auth'
 import { Button } from '@/components/ui/button'
@@ -10,7 +11,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { supabase } from '@/lib/api/supabase'
-import { LogOut, Settings, User } from 'lucide-react'
+import { LogOut, Settings, User, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface HeaderProps {
   projectName?: string
@@ -19,9 +21,22 @@ interface HeaderProps {
 
 export function Header({ projectName, currentPhase }: HeaderProps) {
   const { user } = useAuthContext()
+  const [isSigningOut, setIsSigningOut] = useState(false)
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    setIsSigningOut(true)
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Sign out error:', error)
+        toast.error('Failed to sign out. Please try again.')
+      }
+    } catch (error) {
+      console.error('Sign out error:', error)
+      toast.error('Failed to sign out. Please check your connection.')
+    } finally {
+      setIsSigningOut(false)
+    }
   }
 
   const initials = user?.email?.slice(0, 2).toUpperCase() || 'U'
@@ -66,9 +81,13 @@ export function Header({ projectName, currentPhase }: HeaderProps) {
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign out
+            <DropdownMenuItem onClick={handleSignOut} disabled={isSigningOut}>
+              {isSigningOut ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <LogOut className="mr-2 h-4 w-4" />
+              )}
+              {isSigningOut ? 'Signing out...' : 'Sign out'}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
