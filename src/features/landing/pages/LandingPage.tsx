@@ -17,7 +17,21 @@ import {
   BarChart3,
   Star,
   Clock,
-  ThumbsUp
+  ThumbsUp,
+  Palette,
+  Globe,
+  Code2,
+  Megaphone,
+  PiggyBank,
+  Database,
+  Shield,
+  Mail,
+  Users,
+  LineChart,
+  Bot,
+  Workflow,
+  Lock,
+  Eye
 } from 'lucide-react'
 
 const fadeInUp = {
@@ -245,7 +259,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Core Value Props */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -256,33 +270,33 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              Everything you need to{' '}
-              <span className="text-primary">launch</span>
+              Not a tool.{' '}
+              <span className="text-primary">A partner.</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Your AI co-founder guides you through every stage of building a startup,
-              from initial concept to growth strategy.
+              Your AI co-founder doesn't just give advice—it actually does the work.
+              Building, deploying, marketing, all while you steer.
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: Brain,
-                title: 'Strategic Thinking',
-                description: 'Get advice grounded in startup methodology. From lean canvas to growth frameworks.',
+                icon: Bot,
+                title: 'Does the Work',
+                description: 'Not just planning—actually builds code, creates content, deploys products, and runs campaigns.',
                 gradient: 'from-blue-500/20 to-purple-500/20'
               },
               {
-                icon: Target,
-                title: 'Market Validation',
-                description: 'Identify your target market, analyze competitors, and validate product-market fit.',
+                icon: Database,
+                title: 'Remembers Everything',
+                description: 'Every decision, preference, and context is stored. Your AI never asks the same question twice.',
                 gradient: 'from-primary/20 to-orange-500/20'
               },
               {
-                icon: Rocket,
-                title: 'Launch Planning',
-                description: 'Build actionable roadmaps with milestones, resource planning, and go-to-market strategy.',
+                icon: Shield,
+                title: 'Asks Permission',
+                description: 'Sensitive actions like spending money or public posts always require your approval first.',
                 gradient: 'from-green-500/20 to-teal-500/20'
               }
             ].map((feature, index) => (
@@ -302,6 +316,358 @@ export default function LandingPage() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Full Feature Grid */}
+      <section className="py-24 px-6 border-y border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              Everything to go from{' '}
+              <span className="text-primary">idea to revenue</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Each phase of your startup journey, handled by AI that actually executes.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Brain,
+                title: 'Discovery',
+                description: 'Define your problem, audience, and scope through natural conversation. Get positioning that fits.',
+                tag: 'Phase 1'
+              },
+              {
+                icon: Palette,
+                title: 'Branding',
+                description: 'Name exploration with domain checking, visual direction, colors, typography, and voice guidelines.',
+                tag: 'Phase 2'
+              },
+              {
+                icon: Globe,
+                title: 'Landing Page',
+                description: 'AI generates and deploys your landing page with waitlist. Validate demand before building.',
+                tag: 'Phase 3'
+              },
+              {
+                icon: Code2,
+                title: 'Development',
+                description: 'AI writes code, tests first (TDD), deploys to preview. You review and approve each feature.',
+                tag: 'Phase 4'
+              },
+              {
+                icon: Megaphone,
+                title: 'Marketing',
+                description: 'Automated outreach, ad creation, A/B testing, and campaign optimization across all channels.',
+                tag: 'Phase 5'
+              },
+              {
+                icon: PiggyBank,
+                title: 'Fundraising',
+                description: 'Pitch decks, investor targeting, outreach automation, and term sheet analysis.',
+                tag: 'Optional'
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <div className="glass glass-hover rounded-2xl p-6 h-full group">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <feature.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground bg-secondary/50 px-2 py-1 rounded-full">
+                      {feature.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-sm text-muted-foreground">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Marketing Automation Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
+                <Megaphone className="w-4 h-4" />
+                <span>Marketing Automation</span>
+              </div>
+
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Automated outreach that{' '}
+                <span className="text-primary">actually converts</span>
+              </h2>
+
+              <p className="text-lg text-muted-foreground mb-8">
+                Connect your accounts and let AI handle the heavy lifting—from ad creation
+                to email sequences to social posting. You set the automation level.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  { icon: Mail, text: 'Cold email sequences with personalization' },
+                  { icon: Users, text: 'LinkedIn outreach and follow-ups' },
+                  { icon: LineChart, text: 'Ad creation with A/B testing' },
+                  { icon: Workflow, text: 'CRM setup and lead scoring' },
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.text}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <span>{item.text}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right - Automation levels */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="glass rounded-2xl p-6">
+                <h3 className="text-lg font-semibold mb-6">Choose your automation level</h3>
+                <div className="space-y-4">
+                  {[
+                    {
+                      level: 'Manual',
+                      desc: 'AI drafts everything, you execute',
+                      icon: Eye,
+                      color: 'text-blue-400 bg-blue-500/10'
+                    },
+                    {
+                      level: 'Supervised',
+                      desc: 'AI queues actions, you approve in batches',
+                      icon: CheckCircle2,
+                      color: 'text-primary bg-primary/10'
+                    },
+                    {
+                      level: 'Autonomous',
+                      desc: 'AI executes with spend limits, you review after',
+                      icon: Zap,
+                      color: 'text-green-400 bg-green-500/10'
+                    },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item.level}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + index * 0.1 }}
+                      className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors"
+                    >
+                      <div className={`w-10 h-10 rounded-lg ${item.color} flex items-center justify-center flex-shrink-0`}>
+                        <item.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{item.level}</p>
+                        <p className="text-sm text-muted-foreground">{item.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground mt-4 flex items-center gap-2">
+                  <Lock className="w-3 h-3" />
+                  Spending money and public posts always require approval
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Development Section */}
+      <section className="py-24 px-6 border-y border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left - Code mockup */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="order-2 lg:order-1"
+            >
+              <div className="glass rounded-2xl overflow-hidden">
+                {/* Terminal header */}
+                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                  </div>
+                  <span className="text-xs text-muted-foreground ml-2">PLAN.md</span>
+                </div>
+                {/* Plan content */}
+                <div className="p-4 font-mono text-sm space-y-2">
+                  <p className="text-green-400">## Task 1: Setup database schema [DONE]</p>
+                  <p className="text-green-400">## Task 2: Implement auth flow [DONE]</p>
+                  <p className="text-green-400">## Task 3: User dashboard [DONE]</p>
+                  <p className="text-primary">## Task 4: Payment integration ← Building...</p>
+                  <p className="text-muted-foreground">## Task 5: Email notifications</p>
+                  <p className="text-muted-foreground">## Task 6: Admin panel</p>
+                  <div className="mt-4 pt-4 border-t border-white/5">
+                    <p className="text-muted-foreground text-xs">Preview: https://your-app-preview.vercel.app</p>
+                    <p className="text-green-400 text-xs mt-1">✓ 12 tests passing</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="order-1 lg:order-2"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-6">
+                <Code2 className="w-4 h-4" />
+                <span>Development Pipeline</span>
+              </div>
+
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                AI that actually{' '}
+                <span className="text-primary">builds your product</span>
+              </h2>
+
+              <p className="text-lg text-muted-foreground mb-8">
+                Not just wireframes and specs—real code, tested and deployed.
+                You review each feature in a preview environment before it goes live.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  'Tests written first (TDD methodology)',
+                  'Preview URLs for every feature',
+                  'You approve before production deploy',
+                  'Full git history, you own the code',
+                ].map((item, index) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+                    <span>{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fundraising Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-6">
+                <PiggyBank className="w-4 h-4" />
+                <span>Fundraising Support</span>
+              </div>
+
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Raise capital with{' '}
+                <span className="text-primary">AI in your corner</span>
+              </h2>
+
+              <p className="text-lg text-muted-foreground mb-8">
+                From deciding IF you should raise to closing the deal.
+                Get pitch decks, investor targeting, and negotiation support.
+              </p>
+
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: 'Pitch Deck', desc: 'Tailored to your audience' },
+                  { label: 'Investor List', desc: 'Matched to your space' },
+                  { label: 'Data Room', desc: 'Organized and ready' },
+                  { label: 'Term Analysis', desc: 'Flag bad terms' },
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="p-4 rounded-xl bg-secondary/30"
+                  >
+                    <p className="font-medium text-primary">{item.label}</p>
+                    <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right - Funding paths */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="glass rounded-2xl p-6">
+                <h3 className="text-lg font-semibold mb-2">AI recommends your path</h3>
+                <p className="text-sm text-muted-foreground mb-6">Based on your stage, market, and goals</p>
+                <div className="space-y-3">
+                  {[
+                    { path: 'Bootstrap', when: 'Profitable unit economics' },
+                    { path: 'Angels', when: 'Early, need mentorship' },
+                    { path: 'Accelerator', when: 'Have MVP, need to scale' },
+                    { path: 'Venture', when: 'Proven traction, big market' },
+                  ].map((item) => (
+                    <div
+                      key={item.path}
+                      className="flex items-center justify-between p-3 rounded-lg bg-secondary/30"
+                    >
+                      <span className="font-medium">{item.path}</span>
+                      <span className="text-xs text-muted-foreground">{item.when}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
