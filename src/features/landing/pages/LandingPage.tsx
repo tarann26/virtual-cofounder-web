@@ -11,7 +11,13 @@ import {
   CheckCircle2,
   MessageSquare,
   FileText,
-  TrendingUp
+  TrendingUp,
+  Phone,
+  PhoneCall,
+  BarChart3,
+  Star,
+  Clock,
+  ThumbsUp
 } from 'lucide-react'
 
 const fadeInUp = {
@@ -335,6 +341,148 @@ export default function LandingPage() {
                 <p className="text-muted-foreground text-sm">{step.desc}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pitch Training Section */}
+      <section className="py-24 px-6 relative overflow-hidden">
+        {/* Background accent */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto relative">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left side - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-sm font-medium mb-6">
+                <Phone className="w-4 h-4" />
+                <span>Pitch Training Mode</span>
+              </div>
+
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+                Practice your pitch with{' '}
+                <span className="text-primary text-glow">AI investors & clients</span>
+              </h2>
+
+              <p className="text-lg text-muted-foreground mb-8">
+                Get real phone calls from AI acting as skeptical investors or potential customers.
+                Twice a day, you'll have to convince them your startup is worth their time and money.
+                No scripts. No do-overs. Just like the real thing.
+              </p>
+
+              <div className="space-y-4 mb-8">
+                {[
+                  { icon: PhoneCall, text: 'Receive up to 2 surprise calls daily' },
+                  { icon: Brain, text: 'AI adapts to your industry and stage' },
+                  { icon: BarChart3, text: 'Detailed performance analytics after each call' },
+                  { icon: ThumbsUp, text: 'Get a "likelihood to invest/buy" score' },
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.text}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <span className="text-foreground">{item.text}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <Link to="/signup">
+                <Button className="btn-primary">
+                  Start Training
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+
+            {/* Right side - Call mockup */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative"
+            >
+              {/* Glow behind */}
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-primary/10 to-transparent blur-3xl -z-10" />
+
+              {/* Phone mockup */}
+              <div className="glass rounded-3xl p-6 max-w-sm mx-auto">
+                {/* Incoming call UI */}
+                <div className="text-center mb-6">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/30 to-green-500/30 flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
+                    <PhoneCall className="w-10 h-10 text-primary" />
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-1">Incoming Call</p>
+                  <h3 className="text-xl font-semibold">AI Investor</h3>
+                  <p className="text-sm text-muted-foreground">Series A Partner @ Sequoia</p>
+                </div>
+
+                {/* Call stats preview */}
+                <div className="glass rounded-xl p-4 mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-muted-foreground">Last Call Summary</span>
+                    <span className="text-xs text-muted-foreground">2h ago</span>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between text-sm mb-1">
+                        <span>Investment Likelihood</span>
+                        <span className="text-primary font-medium">72%</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <div className="h-full w-[72%] bg-gradient-to-r from-primary to-green-500 rounded-full" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 text-center">
+                      <div className="p-2 rounded-lg bg-secondary/50">
+                        <Clock className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                        <p className="text-xs text-muted-foreground">Duration</p>
+                        <p className="text-sm font-medium">4:32</p>
+                      </div>
+                      <div className="p-2 rounded-lg bg-secondary/50">
+                        <TrendingUp className="w-4 h-4 mx-auto mb-1 text-green-400" />
+                        <p className="text-xs text-muted-foreground">Clarity</p>
+                        <p className="text-sm font-medium text-green-400">+15%</p>
+                      </div>
+                      <div className="p-2 rounded-lg bg-secondary/50">
+                        <Star className="w-4 h-4 mx-auto mb-1 text-primary" />
+                        <p className="text-xs text-muted-foreground">Score</p>
+                        <p className="text-sm font-medium">8.4</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Improvement tips */}
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Areas to improve</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Market size', 'Revenue model', 'Competition'].map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
